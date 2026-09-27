@@ -9,13 +9,8 @@ return {
 				config = {
 					os = {
 						editPreset = "nvim-remote",
-						-- nvim-remote's default templates use --remote-tab (new tab per file).
-						-- ponytail: dropped their "$NVIM unset" fallback branch — lazygit is only
-						-- ever launched via <C-g> from inside nvim here, so $NVIM is always set.
-						-- Restore the `[ -z "$NVIM" ] && (nvim -- file) ||` guard if lazygit gets
-						-- launched standalone from a shell.
-						edit = 'nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}}',
-						editAtLine = 'nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>"',
+						edit = 'nvim --server "$NVIM" --remote-send "<C-g>" && nvim --server "$NVIM" --remote {{filename}}',
+						editAtLine = 'nvim --server "$NVIM" --remote-send "<C-g>" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>"',
 					},
 					gui = { nerdFontsVersion = "3" },
 				},
@@ -31,7 +26,10 @@ return {
 					selectedLineBgColor = { bg = "Visual" },
 					unstagedChangesColor = { fg = "DiagnosticError" },
 				},
-				win = { style = "lazygit" },
+				win = {
+					style = "lazygit",
+					keys = { hide = { "<C-g>", "hide", mode = "t" } },
+				},
 			},
 			bigfile = { enabled = true },
 			indent = { enabled = true },
